@@ -3,12 +3,15 @@ package kodlama.io.rentACar.business.concretes;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlama.io.rentACar.business.abstracts.IBrandService;
 import kodlama.io.rentACar.business.concretes.requests.CreateBrandRequest;
+import kodlama.io.rentACar.business.concretes.requests.DeleteBrandRequest;
+import kodlama.io.rentACar.business.concretes.requests.UpdateBrandRequest;
 import kodlama.io.rentACar.business.concretes.responses.GetAllBrandsResponse;
 import kodlama.io.rentACar.dataAccess.abstracts.IBrandRepository;
 import kodlama.io.rentACar.entities.Brand;
@@ -49,6 +52,29 @@ public class BrandManager implements IBrandService {
 		
 		this.brandRepository.save(brand);
 		
+	}
+
+
+
+
+
+	@Override
+	public void delete(DeleteBrandRequest deleteBrandRequest) {
+		Brand brand = new Brand();
+		brand.setId(deleteBrandRequest.getId());
+		
+		this.brandRepository.deleteById(brand.getId());
+		
+	}
+
+
+	@Override
+	public void update(UpdateBrandRequest updateBrandRequest) {
+		Brand brand = brandRepository.getReferenceById(updateBrandRequest.getId());
+		brand.setName(updateBrandRequest.getName());
+		
+		
+		this.brandRepository.save(brand);
 	}
 
 }
