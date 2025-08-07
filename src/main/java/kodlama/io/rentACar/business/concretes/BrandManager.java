@@ -1,12 +1,8 @@
 package kodlama.io.rentACar.business.concretes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlama.io.rentACar.business.abstracts.IBrandService;
@@ -15,6 +11,7 @@ import kodlama.io.rentACar.business.concretes.requests.DeleteBrandRequest;
 import kodlama.io.rentACar.business.concretes.requests.UpdateBrandRequest;
 import kodlama.io.rentACar.business.concretes.responses.GetAllBrandsResponse;
 import kodlama.io.rentACar.business.concretes.responses.GetByIdBrandResponse;
+import kodlama.io.rentACar.business.rules.BrandBusinessRules;
 import kodlama.io.rentACar.core.utilities.mappers.ModelMapperService;
 import kodlama.io.rentACar.dataAccess.abstracts.IBrandRepository;
 import kodlama.io.rentACar.entities.Brand;
@@ -25,6 +22,7 @@ import lombok.AllArgsConstructor;
 public class BrandManager implements IBrandService {
 	private IBrandRepository brandRepository;
 	private ModelMapperService modelMapperService;
+	private BrandBusinessRules brandBusinessRules;
 
 	@Override
 	
@@ -53,6 +51,9 @@ public class BrandManager implements IBrandService {
 	public void add(CreateBrandRequest createBrandRequest) {
 //		Brand brand = new Brand();
 //		brand.setName(createBrandRequest.getName());
+		
+		this.brandBusinessRules
+		.checkIfBrandNameExists(createBrandRequest.getName());
 		
 		Brand brand = this.modelMapperService.forRequest()
 				.map(createBrandRequest, Brand.class);

@@ -1,24 +1,21 @@
 package kodlama.io.rentACar.entities;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="brands")
+@Table(name="users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Brand {
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -27,13 +24,10 @@ public class Brand {
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(mappedBy = "brand")
-	List<Model> models;
+	@Column(name="email")
+	private String email;
 	
-
-	
-	
-	
-	
+	@Column(name="password")
+	private String password;
 
 }
