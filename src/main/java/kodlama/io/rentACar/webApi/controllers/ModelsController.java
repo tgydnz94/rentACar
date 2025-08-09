@@ -3,7 +3,9 @@ package kodlama.io.rentACar.webApi.controllers;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import kodlama.io.rentACar.business.abstracts.IModelService;
 import kodlama.io.rentACar.business.concretes.requests.CreateModelRequest;
+import kodlama.io.rentACar.business.concretes.requests.DeleteModelRequest;
+import kodlama.io.rentACar.business.concretes.requests.UpdateModelRequest;
 import kodlama.io.rentACar.business.concretes.responses.GetAllModelsResponse;
+import kodlama.io.rentACar.business.concretes.responses.GetByIdModelResponse;
 import lombok.AllArgsConstructor;
 
 @RestController 
@@ -27,10 +32,25 @@ public class ModelsController {
 		return modelService.getAll();
 	}
 	
+	@GetMapping("/getbyid/{id}")
+	public GetByIdModelResponse getById(@PathVariable int id) {
+		return modelService.getById(id);
+	}
+	
 	@PostMapping("/add")
 	@ResponseStatus(code=HttpStatus.CREATED)
 	public void add(@RequestBody() @Valid() CreateModelRequest modelRequest) {
 		this.modelService.add(modelRequest);
+	}
+	@PostMapping("/update")
+	public void update(@RequestBody() UpdateModelRequest updateModelRequest) {
+		this.modelService.update(updateModelRequest);
+	}
+	
+	@DeleteMapping("/delete")
+	public void delete(@RequestBody() DeleteModelRequest deleteModelRequest)
+	{
+		this.modelService.delete(deleteModelRequest);
 	}
 
 }
